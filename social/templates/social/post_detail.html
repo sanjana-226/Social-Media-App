@@ -1,0 +1,51 @@
+{% extends 'social/base.html' %}
+
+{% block content %}
+
+<article class="post">
+    <aside class="actions">
+        {% if user.is_authenticated %}
+        <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}">
+            {% include './icons/pencil-fill.svg' %}
+        </a>
+        {% endif %}
+    </aside>
+    <time class="date">
+        {{ post.published_date }}
+        <br>
+        <a href="{% url 'profile' pk=post.author.pk %}">{{ post.author }}</a>
+    </time>
+    <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h2>
+    <p>{{ post.text|linebreaksbr }}</p>
+
+    {% for comment in comments %}
+    <div class="comments" style="padding: 10px;">
+        <p class="font-weight-bold">
+            {{ comment.name }}
+            <span class=" text-muted font-weight-normal">
+                {{ comment.created_on }}
+            </span>
+        </p>
+        {{ comment.body | linebreaks }}
+    </div>
+    {% endfor %}
+    <div class="card-body">
+        {% if new_comment %}
+        <div class="alert alert-success" role="alert">
+            Your comment is awaiting moderation
+        </div>
+        {% else %}
+        <h3>Leave a comment</h3>
+        <form method="post" style="margin-top: 1.3em;">
+            {{ comment_form.as_p }}
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary  btn-lg">Submit</button>
+        </form>
+        {% endif %}
+    </div>
+
+
+
+</article>
+
+{% endblock %}
