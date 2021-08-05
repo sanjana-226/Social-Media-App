@@ -3,6 +3,12 @@ h1 a{
     padding-left: 15px;
     font-family: 'Merriweather', serif;
     }
+h2 a{
+    text-align:center;
+    color: #bb5151;
+    padding-left: 15px;
+    font-family: 'Merriweather', serif;
+    }
 body a {
     font-family: 'Merriweather', serif;
 }

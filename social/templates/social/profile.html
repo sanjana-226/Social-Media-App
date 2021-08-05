@@ -24,26 +24,25 @@
                             <div class="col">
                                 <div class="card-profile-stats d-flex justify-content-center mt-md-5">
                                     <div>
-                                        <span class="heading">{{ user.follow.count }}</span> follows <br>
+                                        <span class="heading">{{ user.follow.count }}</span> follows /
                                         <span class="heading">{{ post.count }}</span>
-                                        posts       
+                                        posts
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="text-center">
-                            <h3>{{ user }}</h3>
+                            <h3>{{user.display_name}}</h3>
+                            <h4>@{{ user }}</h4>
                             <p>{{ user.bio }}</p>
                             <hr class="my-2" />
                             {% if request.user == user %}
                             <a class="btn btn-info" href="{% url 'edit_profile' %}">Edit Profile</a>
                             {% else %}
                             {% if following == False %}
-                            <small><a class="btn btn-primary"
-                                    href="/follow/{{ user.id }}">Follow</a></small>
+                            <small><a class="btn btn-primary" href="/follow/{{ user.id }}">Follow</a></small>
                             {% else %}
-                            <small><a class="btn btn-danger"
-                                    href="/unfollow/{{ user.id }}">UnFollow</a></small>
+                            <small><a class="btn btn-danger" href="/unfollow/{{ user.id }}">UnFollow</a></small>
                             {% endif %} {% endif %}
                         </div>
                     </div>

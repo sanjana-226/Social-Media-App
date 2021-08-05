@@ -19,7 +19,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')), 
     path('accounts/signup/', views.register, name='signup'),
-    path('edit-profile/', views.edit_profile, name='edit_profile'),
+    path('edit_profile/', views.edit_profile, name='edit_profile'),
     path('follows/', views.follow_list, name='follow_list'),
     path('api/v1/',include('social_django.urls', namespace='social')),
    # url('', views.index),
@@ -30,4 +30,5 @@ urlpatterns = [
     #path('users/friend/delete/<int:id>/', views.delete_friend, name='delete_friend'),
     path('follow/<int:user>',views.follow , name='follow'),
     path('unfollow/<int:user>',views.unfollow, name='unfollow'),
+
 ]

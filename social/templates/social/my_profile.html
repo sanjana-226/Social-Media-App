@@ -2,13 +2,49 @@
 {% load static %}
 {% block content %}
 
-<head>
-    <h1>profile</h1>
-</head>
 
-<body>"Lorem ipsum </body>
 
-<a class="nav-link" href="/accounts/logout">Logout</a>
+<div class="main-content">
+    <div class="container mt-7">
+        <div class="row">
+            <div class="col-xl-8 m-auto order-xl-2 mb-5 mb-xl-0">
+                <div class="row justify-content-center">
+                    <div class="col-lg-3 order-lg-2">
+                        <div class="card-profile-image">
+                            <a href="{{ user.image.url }}">
+                                <img src="{{ user.image.url }}" class="rounded-circle" width="160px" height="160px" />
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4"></div>
+                <div class="card-body pt-0 pt-md-4">
+                    <div class="row">
+                        <div class="col">
+                            <div class="card-profile-stats d-flex justify-content-center mt-md-5">
+                                <div>
+                                    <span class="heading">{{ user.follow.count }}</span> follows /
+                                    <span class="heading">{{ post.count }}</span>
+                                    posts
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <h3>{{request.user.display_name}}</h3>
+                        <h4>@{{ user }}</h4>
+                        <p>{{ user.bio }}</p>
+                        <hr class="my-2" />
+                        {% if request.user == user %}
+                        <a class="btn btn-info" href="/accounts/logout">Logout</a> 
+                        <a class="btn btn-info" href="{% url 'edit_profile' %}">Edit Profile</a>
+                        {% endif %}
 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% endblock content %}

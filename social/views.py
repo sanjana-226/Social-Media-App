@@ -135,13 +135,13 @@ def edit_profile(request):
         if u_form.is_valid():
             u_form.save()
             messages.success(request, f"Your account has been updated!")
-            return redirect("my_profile")
+            return redirect("/my_profile")
     else:
         u_form = UserUpdateForm(instance=request.user)
     context = {
         "u_form": u_form,
     }
-    return render(request, "users/edit_profile.html", context)
+    return render(request, "social/edit_profile.html", context)
 
 def follow(request, user):
     other_user= get_object_or_404(User, pk=user)
@@ -149,10 +149,11 @@ def follow(request, user):
     request.user.follow.add(other_user)
     return redirect(f"/profile/{user}")
 
-
 def unfollow(request, user):
     other_user= get_object_or_404(User, pk=user)
     me= request.user
     request.user.follow.remove(other_user)
     return redirect(f"/profile/{user}")
     
+def feed(request,user):
+    pass
