@@ -30,5 +30,5 @@ urlpatterns = [
     #path('users/friend/delete/<int:id>/', views.delete_friend, name='delete_friend'),
     path('follow/<int:user>',views.follow , name='follow'),
     path('unfollow/<int:user>',views.unfollow, name='unfollow'),
-
+    path('feed', views.feed, name='feed')
 ]

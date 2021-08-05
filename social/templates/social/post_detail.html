@@ -12,21 +12,29 @@
     </aside>
     <time class="date">
         {{ post.published_date }}
-        <br>
-        <a href="{% url 'profile' pk=post.author.pk %}">{{ post.author }}</a>
+
+        <a href="{% url 'profile' pk=post.author.pk %}"> {{ post.author }}</a>
     </time>
     <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h2>
     <p>{{ post.text|linebreaksbr }}</p>
 
+
+
+    <hr>
+
+    <h2>Comments</h2>
+
+
     {% for comment in comments %}
     <div class="comments" style="padding: 10px;">
         <p class="font-weight-bold">
-            {{ comment.name }}
+           
+            <a href="{% url 'profile' pk=comment.author.pk %}"> {{ comment.author }}</a>
             <span class=" text-muted font-weight-normal">
-                {{ comment.created_on }}
+                {{ comment.date }}
             </span>
         </p>
-        {{ comment.body | linebreaks }}
+        {{ comment.text | linebreaks }}
     </div>
     {% endfor %}
     <div class="card-body">

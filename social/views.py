@@ -6,6 +6,7 @@ from django.contrib.auth import login
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
+
 User = get_user_model()
 
 
@@ -14,6 +15,7 @@ def post_list(request):
         "-published_date"
     )
     return render(request, "social/post_list.html", {"posts": posts})
+
 
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
@@ -44,6 +46,7 @@ def post_detail(request, pk):
         },
     )
 
+
 def post_new(request):
     if request.method == "POST":
         form = PostForm(request.POST)
@@ -56,6 +59,7 @@ def post_new(request):
     else:
         form = PostForm()
     return render(request, "social/post_edit.html", {"form": form})
+
 
 def post_edit(request, pk):
     post = get_object_or_404(Post, pk=pk)
@@ -71,11 +75,14 @@ def post_edit(request, pk):
         form = PostForm(instance=post)
     return render(request, "social/post_edit.html", {"form": form})
 
+
 def about(request):
     return render(request, "social/about.html", {})
 
+
 def my_profile(request):
     return render(request, "social/my_profile.html", {})
+
 
 def register(request):
     if request.method == "POST":
@@ -89,6 +96,7 @@ def register(request):
         f = NewUserForm()
 
     return render(request, "registration/signup.html", {"form": f})
+
 
 def signup_request(request):
 
@@ -107,11 +115,13 @@ def signup_request(request):
         context={"register_form": form},
     )
 
+
 def follow_list(request):
     p = request.user
     friends = p.friends.all()
     context = {"friends": friends}
     return render(request, "users/friend_list.html", context)
+
 
 def profile(request, pk):
     user = get_object_or_404(User, pk=pk)
@@ -129,6 +139,7 @@ def profile(request, pk):
         },
     )
 
+
 def edit_profile(request):
     if request.method == "POST":
         u_form = UserUpdateForm(request.POST, instance=request.user)
@@ -143,17 +154,31 @@ def edit_profile(request):
     }
     return render(request, "social/edit_profile.html", context)
 
+
 def follow(request, user):
-    other_user= get_object_or_404(User, pk=user)
-    me= request.user
+    other_user = get_object_or_404(User, pk=user)
+    me = request.user
     request.user.follow.add(other_user)
     return redirect(f"/profile/{user}")
 
+
 def unfollow(request, user):
-    other_user= get_object_or_404(User, pk=user)
-    me= request.user
+    other_user = get_object_or_404(User, pk=user)
+    me = request.user
     request.user.follow.remove(other_user)
     return redirect(f"/profile/{user}")
-    
-def feed(request,user):
-    pass
+
+
+def feed(request):
+    #following = True if request.user in request.user.follow.all() else False
+    posts = Post.objects.filter(author__in=request.user.follow.all())
+
+    return render(
+        request,
+        "social/feed.html",
+        {
+            "posts": posts,
+       #     "following": following,
+        },
+    )
+
