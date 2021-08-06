@@ -11,10 +11,7 @@
                     <div class="row justify-content-center">
                         <div class="col-lg-3 order-lg-2">
                             <div class="card-profile-image">
-                                <a href="{{ user.image.url }}">
-                                    <img src="{{ user.image.url }}" class="rounded-circle" width="160px"
-                                        height="160px" />
-                                </a>
+                                <img src="{{ user.image.url }}" class="rounded-circle" width="160px" height="160px" />
                             </div>
                         </div>
                     </div>
@@ -44,6 +41,8 @@
                             {% else %}
                             <small><a class="btn btn-danger" href="/unfollow/{{ user.id }}">UnFollow</a></small>
                             {% endif %} {% endif %}
+                           
+                            
                         </div>
                     </div>
                 </div>
@@ -53,5 +52,7 @@
 
     </div>
 </div>
+
+
 
 {% endblock content %}

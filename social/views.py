@@ -7,6 +7,10 @@ from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
 
+
+from django.http import HttpResponse
+from .forms import *
+
 User = get_user_model()
 
 
@@ -129,6 +133,18 @@ def profile(request, pk):
 
     following = True if user in request.user.follow.all() else False
 
+    if request.method == 'POST':
+        form = UserUpdateForm(request.POST, request.FILES, instance=request.user)
+  
+        if form.is_valid():
+
+            form.save()
+            return redirect("/my_profile")
+    else:
+        form = UserUpdateForm()
+
+    profile_images=User.objects.all()
+    
     return render(
         request,
         "social/profile.html",
@@ -136,13 +152,14 @@ def profile(request, pk):
             "user": user,
             "post": post,
             "following": following,
+            'form' : form,
+            "profile_images":profile_images,
         },
     )
 
-
 def edit_profile(request):
     if request.method == "POST":
-        u_form = UserUpdateForm(request.POST, instance=request.user)
+        u_form = UserUpdateForm(request.POST,request.FILES, instance=request.user)
         if u_form.is_valid():
             u_form.save()
             messages.success(request, f"Your account has been updated!")

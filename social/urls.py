@@ -3,7 +3,8 @@ from . import views
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.views.generic.base import RedirectView
 from django.contrib import admin
-
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('', views.post_list, name='post_list'),
@@ -22,13 +23,8 @@ urlpatterns = [
     path('edit_profile/', views.edit_profile, name='edit_profile'),
     path('follows/', views.follow_list, name='follow_list'),
     path('api/v1/',include('social_django.urls', namespace='social')),
-   # url('', views.index),
-    #path('users/friend-request/send/<int:id>/', views.send_friend_request, name='send_friend_request'),
-    #path('users/friend-request/cancel/<int:id>/', views.cancel_friend_request, name='cancel_friend_request'),
-    #path('users/friend-request/accept/<int:id>/', views.accept_friend_request, name='accept_friend_request'),
-    #path('users/friend-request/delete/<int:id>/', views.delete_friend_request, name='delete_friend_request'),
-    #path('users/friend/delete/<int:id>/', views.delete_friend, name='delete_friend'),
     path('follow/<int:user>',views.follow , name='follow'),
     path('unfollow/<int:user>',views.unfollow, name='unfollow'),
-    path('feed', views.feed, name='feed')
-]
+    path('feed', views.feed, name='feed'),
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

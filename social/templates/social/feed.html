@@ -1,13 +1,21 @@
 {% extends 'social/base.html' %}
 
 {% block content %}
+<h1>Your Feed</h1> <br>
 {% for post in posts %}
 <article class="post">
     <time class="date">
         {{ post.published_date }}
+        <br>
+    <a href="{% url 'profile' pk=post.author.pk %}"> {{ post.author }}</a>
+    <img src="{{ post.author.image.url }}" class="rounded-circle" width="60px" height="60px" />
+
     </time>
     <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h2>
     <p>{{ post.text|linebreaksbr }}</p>
 </article>
+
 {% endfor %}
+
+
 {% endblock %}

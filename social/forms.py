@@ -35,4 +35,5 @@ class UserUpdateForm(forms.ModelForm):
 
 	class Meta:
 		model = User
-		fields = ['display_name', 'email','bio']
+		fields = ['display_name', 'email','bio', 'image']
+
