@@ -5,6 +5,7 @@ from django.views.generic.base import RedirectView
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.generic import TemplateView
 
 urlpatterns = [
     path('', views.post_list, name='post_list'),
@@ -26,5 +27,7 @@ urlpatterns = [
     path('follow/<int:user>',views.follow , name='follow'),
     path('unfollow/<int:user>',views.unfollow, name='unfollow'),
     path('feed', views.feed, name='feed'),
+    path('google_accounts/', include('allauth.urls')),
+    path('', TemplateView.as_view(template_name="social/index.html")),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

@@ -12,9 +12,19 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 import json
+import dotenv
 
-f = open('secrets.json',)
-secrets = json.load(f)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+dotenv_file = os.path.join(BASE_DIR, ".env")
+if os.path.isfile(dotenv_file):
+    dotenv.load_dotenv(dotenv_file)
+
+SECRET_KEY = os.environ['SECRET_KEY']  
+
+#f = open('secrets.json',)
+#secrets = json.load(f)
+#SECRET_KEY = secrets["SECRET_KEY"]
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -24,12 +34,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = secrets["SECRET_KEY"]
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '.pythonanywhere.com']
+ALLOWED_HOSTS = ['127.0.0.1','sanjana-social-app.herokuapp.com/']
 
 # Application definition
 
@@ -42,11 +52,19 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'social',
     'social_django',
-    'crispy_forms',]
+    'crispy_forms',
+    'django.contrib.sites', 
+    'allauth',   
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    ]
 
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.google.GoogleOAuth2',
     'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+
 )
 
 MIDDLEWARE = [
@@ -57,6 +75,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.midddleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'mysite.urls'
@@ -147,3 +166,18 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = secrets["SOCIAL_AUTH_GOOGLE_OAUTH2_KEY"]
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = secrets["SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET"]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+SITE_ID = 1
+LOGIN_REDIRECT_URL = '/'
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
